@@ -19,4 +19,11 @@ class MoviesRepository(private val movieDao: MovieDao) {
     suspend fun insertAll(movie: List<Movie>) {
         movieDao.insertAll(movie)
     }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun search(query: String):List<Movie> {
+        //the * is replacing the %
+        return movieDao.search("*$query*")
+    }
 }

@@ -5,11 +5,14 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.alyndroid.decadeofmovies.pojo.Movie
+import com.alyndroid.decadeofmovies.pojo.MovieFTS
 
-@Database(entities = [Movie::class], version = 1, exportSchema = false)
+@Database(entities = [Movie::class, MovieFTS::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
-public abstract class MovieRoomDatabase : RoomDatabase() {
+abstract class MovieRoomDatabase : RoomDatabase() {
 
     abstract fun movieDao(): MovieDao
 
@@ -27,7 +30,14 @@ public abstract class MovieRoomDatabase : RoomDatabase() {
                     context.applicationContext,
                     MovieRoomDatabase::class.java,
                     "movie_database"
-                ).build()
+                ).addCallback(object : RoomDatabase.Callback() {
+                    override fun onCreate(db: SupportSQLiteDatabase) {
+                        super.onCreate(db)
+                        // 3
+                        db.execSQL("INSERT INTO movies_fts(movies_fts) VALUES ('rebuild')")
+                    }
+                })
+                    .build()
                 INSTANCE = instance
                 // return instance
                 instance

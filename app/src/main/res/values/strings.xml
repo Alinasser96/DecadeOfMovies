@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Decade of Movies</string>
     <string name="isFirstTime">isFirstTime</string>
+    <string name="search">Search</string>
 </resources>

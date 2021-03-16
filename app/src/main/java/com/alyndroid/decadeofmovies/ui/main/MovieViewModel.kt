@@ -13,6 +13,9 @@ class MovieViewModel(private val repository: MoviesRepository, private val conte
     ViewModel() {
 
     val allMovies: LiveData<List<Movie>> = repository.allMovies.asLiveData()
+    private val _searchResults = MutableLiveData<List<Movie>>()
+    val searchResults: LiveData<List<Movie>>
+        get() = _searchResults
 
     private fun insertMovies(movie: List<Movie>) = viewModelScope.launch {
         repository.insertAll(movie)
@@ -25,6 +28,12 @@ class MovieViewModel(private val repository: MoviesRepository, private val conte
         val movies: List<Movie> = gson.fromJson(jsonFileString, listPersonType)
 
         insertMovies(movies)
+    }
+
+    fun search(query: String) = viewModelScope.launch {
+        repository.search(query).let {
+            _searchResults.postValue(it)
+        }
     }
 }
 
