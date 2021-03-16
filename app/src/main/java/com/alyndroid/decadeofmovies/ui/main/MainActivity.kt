@@ -1,7 +1,6 @@
 package com.alyndroid.decadeofmovies.ui.main
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.widget.SearchView
 import androidx.activity.viewModels
@@ -11,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alyndroid.decadeofmovies.R
 import com.alyndroid.decadeofmovies.application.MovieApplication
-import com.alyndroid.decadeofmovies.helper.SharedPreference
+import com.alyndroid.decadeofmovies.util.SharedPreference
 import com.alyndroid.decadeofmovies.ui.adapters.MoviesAdapter
 
 class MainActivity : AppCompatActivity() {
@@ -41,7 +40,22 @@ class MainActivity : AppCompatActivity() {
 
         movieViewModel.searchResults.observe(this, Observer { movies->
             movies.let {
-                adapter.submitList(movies)
+                val searchMoviesResult = movies.asReversed()
+                    .groupBy {
+                        it.year
+                    }.flatMap {
+                        // we gonna sort the rating of an entity and
+                        // limit the results to get the top 5
+                        var list = it.value.sortedByDescending { movie ->
+                            movie.rating
+                        }.toMutableList<Any>()
+                        if (list.size > 5)
+                            list = list.subList(0, 5)
+                        // append the year value
+                        list.add(0, it.key)
+                        list
+                    }
+                adapter.submitList(searchMoviesResult)
                 adapter.notifyDataSetChanged()
             }
 
@@ -57,6 +71,7 @@ class MainActivity : AppCompatActivity() {
         val searchItem = menu!!.findItem(R.id.search_bar)
         searchView = searchItem.actionView as SearchView
         searchView.isSubmitButtonEnabled = true
+        searchView.maxWidth = Integer.MAX_VALUE
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextChange(newText: String): Boolean {
                 movieViewModel.search(query = newText)

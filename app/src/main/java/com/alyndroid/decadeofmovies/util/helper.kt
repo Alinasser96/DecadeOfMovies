@@ -1,4 +1,4 @@
-package com.alyndroid.decadeofmovies.helper
+package com.alyndroid.decadeofmovies.util
 
 import android.content.Context
 import java.io.IOException

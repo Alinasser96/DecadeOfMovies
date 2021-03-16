@@ -3,29 +3,60 @@ package com.alyndroid.decadeofmovies.ui.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RatingBar
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.alyndroid.decadeofmovies.R
 import com.alyndroid.decadeofmovies.pojo.Movie
+import com.alyndroid.decadeofmovies.util.TYPE_MOVIE
+import com.alyndroid.decadeofmovies.util.TYPE_YEAR
 
-class MoviesAdapter : ListAdapter<Movie, MoviesAdapter.MovieViewHolder>(WordsComparator()) {
+class MoviesAdapter : ListAdapter<Any, RecyclerView.ViewHolder>(MovieComparator()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
-        return MovieViewHolder.create(parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when (viewType) {
+            TYPE_MOVIE -> MovieViewHolder.create(parent)
+            TYPE_YEAR -> YearViewHolder.create(parent)
+            else -> MovieViewHolder.create(parent)
+        }
     }
 
-    override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        val current = getItem(position)
-        holder.bind(current.title)
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+
+        when (holder.itemViewType) {
+            TYPE_MOVIE -> {
+                val current = getItem(position) as Movie
+                (holder as MovieViewHolder).bind(current)
+            }
+
+            TYPE_YEAR -> {
+                val current = getItem(position) as Int
+                (holder as YearViewHolder).bind(current.toString())
+            }
+        }
+
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        if (getItem(position) is Int) {
+            return TYPE_YEAR
+        } else if (getItem(position) is Movie) {
+            return TYPE_MOVIE
+        }
+        return -1
     }
 
     class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val movieItemView: TextView = itemView.findViewById(R.id.textView)
+        private val movieItemTitle: TextView = itemView.findViewById(R.id.movie_item_title)
+        private val ratingBar: RatingBar = itemView.findViewById(R.id.ratingBar)
+        private val movieItemYear: TextView = itemView.findViewById(R.id.movie_item_year)
 
-        fun bind(text: String?) {
-            movieItemView.text = text
+        fun bind(movie: Movie?) {
+            movieItemTitle.text = movie!!.title
+            movieItemYear.text = movie.year.toString()
+            ratingBar.rating = movie.rating.toFloat()
         }
 
         companion object {
@@ -37,13 +68,39 @@ class MoviesAdapter : ListAdapter<Movie, MoviesAdapter.MovieViewHolder>(WordsCom
         }
     }
 
-    class WordsComparator : DiffUtil.ItemCallback<Movie>() {
-        override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
-            return oldItem === newItem
+    class YearViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val yearItemView: TextView = itemView.findViewById(R.id.tvYear)
+
+        fun bind(text: String?) {
+            yearItemView.text = text
         }
 
-        override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
-            return oldItem.title == newItem.title
+        companion object {
+            fun create(parent: ViewGroup): YearViewHolder {
+                val view: View = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.year_item, parent, false)
+                return YearViewHolder(view)
+            }
+        }
+    }
+
+    class MovieComparator : DiffUtil.ItemCallback<Any>() {
+        override fun areItemsTheSame(oldItem: Any, newItem: Any): Boolean {
+            return if (oldItem is Movie && newItem is Movie) {
+                oldItem.title == newItem.title
+            } else if (oldItem is Int && newItem is Int)
+                oldItem == newItem
+            else
+                false
+        }
+
+        override fun areContentsTheSame(oldItem: Any, newItem: Any): Boolean {
+            return if (oldItem is Movie && newItem is Movie) {
+                oldItem as Movie == newItem as Movie
+            } else if (oldItem is Int && newItem is Int)
+                oldItem as Int == newItem as Int
+            else
+                false
         }
     }
 }

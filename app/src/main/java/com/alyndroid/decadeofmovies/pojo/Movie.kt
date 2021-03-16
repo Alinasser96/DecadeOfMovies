@@ -19,7 +19,5 @@ data class Movie(
 @Fts4(contentEntity = Movie::class)
 data class MovieFTS(
     @ColumnInfo(name = "title")
-    val title: String,
-    @ColumnInfo(name = "year")
-    val year: Int
+    val title: String
 )

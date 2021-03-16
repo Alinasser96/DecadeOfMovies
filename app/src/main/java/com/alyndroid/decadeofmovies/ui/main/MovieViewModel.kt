@@ -2,7 +2,7 @@ package com.alyndroid.decadeofmovies.ui.main
 
 import android.content.Context
 import androidx.lifecycle.*
-import com.alyndroid.decadeofmovies.helper.getJsonDataFromAsset
+import com.alyndroid.decadeofmovies.util.getJsonDataFromAsset
 import com.alyndroid.decadeofmovies.pojo.Movie
 import com.alyndroid.decadeofmovies.repositories.MoviesRepository
 import com.google.gson.Gson
