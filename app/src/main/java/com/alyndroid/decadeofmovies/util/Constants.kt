@@ -7,6 +7,6 @@ const val PAGE_COUNT = 12
 const val PAGE_COUNT_MOVIES = 10
 const val MOVIE_KEY = "movieModel"
 const val MOVIE_DETAIL = "movieDetail"
-const val FLICKER_API_KEY = "b2b66e236bf6e44ddac4ee41e13f6b32"
+const val FLICKER_API_KEY = "1f49b6fc632b45e00bbf6945d6751bd2"
 const val FIRST_TIME = "firstTime"
 const val MOVIES_DATABASE = "moviesdb"

@@ -10,7 +10,7 @@
 
     <color name="dark_background">#243447</color>
     <color name="dark_second">#CF6679</color>
-
+    <color name="text_dimmed">#807878</color>
 
 
 </resources>

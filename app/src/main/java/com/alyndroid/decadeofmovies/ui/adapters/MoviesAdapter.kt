@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RatingBar
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -13,7 +14,7 @@ import com.alyndroid.decadeofmovies.pojo.Movie
 import com.alyndroid.decadeofmovies.util.TYPE_MOVIE
 import com.alyndroid.decadeofmovies.util.TYPE_YEAR
 
-class MoviesAdapter : ListAdapter<Any, RecyclerView.ViewHolder>(MovieComparator()) {
+class MoviesAdapter(private val movieClickListener:MovieClickListener) : ListAdapter<Any, RecyclerView.ViewHolder>(MovieComparator()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -29,6 +30,9 @@ class MoviesAdapter : ListAdapter<Any, RecyclerView.ViewHolder>(MovieComparator(
             TYPE_MOVIE -> {
                 val current = getItem(position) as Movie
                 (holder as MovieViewHolder).bind(current)
+                (holder as MovieViewHolder).movieCardView.setOnClickListener {
+                    movieClickListener.onClick(current)
+                }
             }
 
             TYPE_YEAR -> {
@@ -52,6 +56,7 @@ class MoviesAdapter : ListAdapter<Any, RecyclerView.ViewHolder>(MovieComparator(
         private val movieItemTitle: TextView = itemView.findViewById(R.id.movie_item_title)
         private val ratingBar: RatingBar = itemView.findViewById(R.id.ratingBar)
         private val movieItemYear: TextView = itemView.findViewById(R.id.movie_item_year)
+        val movieCardView: CardView = itemView.findViewById(R.id.movie_card_view)
 
         fun bind(movie: Movie?) {
             movieItemTitle.text = movie!!.title
@@ -103,4 +108,8 @@ class MoviesAdapter : ListAdapter<Any, RecyclerView.ViewHolder>(MovieComparator(
                 false
         }
     }
+}
+
+class MovieClickListener(val clickListener: (movie: Movie) -> Unit) {
+    fun onClick(movie: Movie) = clickListener(movie)
 }
