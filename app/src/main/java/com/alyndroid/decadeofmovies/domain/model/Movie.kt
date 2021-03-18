@@ -1,4 +1,4 @@
-package com.alyndroid.decadeofmovies.pojo
+package com.alyndroid.decadeofmovies.domain.model
 
 import android.os.Parcelable
 import androidx.room.ColumnInfo

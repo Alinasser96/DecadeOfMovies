@@ -1,4 +1,4 @@
-package com.alyndroid.decadeofmovies.ui.adapters
+package com.alyndroid.decadeofmovies.presentation.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.alyndroid.decadeofmovies.R
-import com.alyndroid.decadeofmovies.pojo.Movie
+import com.alyndroid.decadeofmovies.domain.model.Movie
 import com.alyndroid.decadeofmovies.util.TYPE_MOVIE
 import com.alyndroid.decadeofmovies.util.TYPE_YEAR
 
@@ -30,7 +30,7 @@ class MoviesAdapter(private val movieClickListener:MovieClickListener) : ListAda
             TYPE_MOVIE -> {
                 val current = getItem(position) as Movie
                 (holder as MovieViewHolder).bind(current)
-                (holder as MovieViewHolder).movieCardView.setOnClickListener {
+                holder.movieCardView.setOnClickListener {
                     movieClickListener.onClick(current)
                 }
             }

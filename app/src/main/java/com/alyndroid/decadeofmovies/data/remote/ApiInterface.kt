@@ -1,16 +1,9 @@
 package com.alyndroid.coroutinestutorialstest
 
-import com.alyndroid.decadeofmovies.pojo.FlickerReponse
-import com.alyndroid.decadeofmovies.pojo.ImageResponse
-import com.alyndroid.decadeofmovies.pojo.ImageWrapperResponse
+import com.alyndroid.decadeofmovies.domain.model.ImageWrapperResponse
 import com.alyndroid.decadeofmovies.util.FLICKER_API_KEY
-import kotlinx.coroutines.Deferred
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 import retrofit2.http.GET
 import retrofit2.http.Headers
-import retrofit2.http.POST
 import retrofit2.http.Query
 
 interface ApiInterface {

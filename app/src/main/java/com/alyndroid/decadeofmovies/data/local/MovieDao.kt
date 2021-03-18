@@ -4,8 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.alyndroid.decadeofmovies.pojo.Movie
-import com.alyndroid.decadeofmovies.pojo.MovieFTS
+import com.alyndroid.decadeofmovies.domain.model.Movie
 import kotlinx.coroutines.flow.Flow
 
 @Dao

@@ -1,0 +1,72 @@
+package com.alyndroid.decadeofmovies.presentation.activities
+
+import android.os.Bundle
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.GridLayoutManager
+import com.alyndroid.decadeofmovies.R
+import com.alyndroid.decadeofmovies.domain.model.Movie
+import com.alyndroid.decadeofmovies.presentation.adapters.ImagesAdapter
+import com.alyndroid.decadeofmovies.presentation.viewModels.DetailsViewModel
+import com.alyndroid.decadeofmovies.util.hide
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.activity_details.*
+
+
+@AndroidEntryPoint
+class DetailsActivity : AppCompatActivity() {
+
+    private lateinit var movie: Movie
+    private val galleryAdapter = ImagesAdapter()
+
+    private val viewModel by viewModels<DetailsViewModel>()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_details)
+        movie = intent.getParcelableExtra("Extra_Movie")!!
+        initImagesRecycler()
+        bindViews(movie)
+
+        viewModel.search(movie.title)
+
+        viewModel.searchResults.observe(this, Observer {
+            galleryAdapter.submitData(it.photos.photo.map { p -> p.toUrl() })
+        })
+
+        viewModel.loading.observe(this, Observer {
+            animation_view?.isVisible = it
+        })
+    }
+
+    private fun bindViews(movie: Movie) {
+
+        with(movie) {
+            if (cast.isEmpty()) {
+                cast_details_tv.hide()
+                cast_details_title_tv.hide()
+            }
+            if (genres.isEmpty()) {
+                genre_details_tv.hide()
+            }
+            name_details_tv?.text = title
+            year_details_tv?.text = year.toString()
+            cast_details_tv?.text = cast.joinToString(separator = ", ")
+            genre_details_tv?.text = genres.joinToString(separator = ", ")
+            ratingBar?.rating = rating.toFloat()
+            ratingBar?.isEnabled = false
+        }
+
+    }
+
+    private fun initImagesRecycler() {
+        gallery_details_rv?.layoutManager =
+            GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false)
+        gallery_details_rv?.itemAnimator = DefaultItemAnimator()
+        gallery_details_rv?.setHasFixedSize(true)
+        gallery_details_rv.isNestedScrollingEnabled = true
+        gallery_details_rv?.adapter = galleryAdapter
+    }
+}

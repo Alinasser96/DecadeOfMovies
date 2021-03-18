@@ -4,16 +4,11 @@ import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.alyndroid.decadeofmovies.application.MovieApplication
 import com.alyndroid.decadeofmovies.data.local.MovieDao
 import com.alyndroid.decadeofmovies.data.local.MovieRoomDatabase
-import com.alyndroid.decadeofmovies.pojo.Movie
-import com.alyndroid.decadeofmovies.repositories.MoviesRepository
+import com.alyndroid.decadeofmovies.domain.model.Movie
 import junit.framework.Assert.assertEquals
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before

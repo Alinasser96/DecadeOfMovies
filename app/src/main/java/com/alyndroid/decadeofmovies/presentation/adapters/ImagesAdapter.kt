@@ -1,4 +1,4 @@
-package com.alyndroid.decadeofmovies.ui.adapters
+package com.alyndroid.decadeofmovies.presentation.adapters
 
 import android.view.LayoutInflater
 import android.view.View
