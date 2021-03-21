@@ -1,12 +1,10 @@
 package com.alyndroid.decadeofmovies.util
 
 import android.content.Context
-import android.view.View
 import com.alyndroid.decadeofmovies.domain.model.Movie
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.IOException
-import java.util.regex.Matcher
 
 fun getJsonDataFromAsset(context: Context, fileName: String): String? {
     val jsonString: String

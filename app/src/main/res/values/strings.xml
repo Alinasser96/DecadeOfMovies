@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">Decade of Movies</string>
-    <string name="isFirstTime">isFirstTime</string>
-    <string name="search">Search</string>
     <string name="search_hint">search your favourite movie</string>
     <string name="empty_message">this decade has no film with this name</string>
     <string name="empty_message_image">Empty_message_image</string>

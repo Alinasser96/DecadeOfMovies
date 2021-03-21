@@ -15,15 +15,14 @@ import com.alyndroid.decadeofmovies.domain.model.Movie
 import com.alyndroid.decadeofmovies.presentation.adapters.MovieClickListener
 import com.alyndroid.decadeofmovies.presentation.adapters.MoviesAdapter
 import com.alyndroid.decadeofmovies.presentation.viewModels.MovieViewModel
-import com.alyndroid.decadeofmovies.util.SharedPreference
-import com.alyndroid.decadeofmovies.util.hide
-import com.alyndroid.decadeofmovies.util.show
+import com.alyndroid.decadeofmovies.util.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(){
     private lateinit var adapter: MoviesAdapter
+    private lateinit var searchAdapter: MoviesAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var searchView: SearchView
     private var moviesList = listOf<Movie>()
@@ -34,26 +33,21 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val movieClickListener = MovieClickListener{movie->
+            startDetailsActivity(movie)
+        }
         initSearchView()
         recyclerView = findViewById(R.id.recyclerview)
-        adapter = MoviesAdapter(MovieClickListener { movie ->
-            val intent = Intent(this, DetailsActivity::class.java)
-            intent.putExtra("Extra_Movie", movie)
-            startActivity(intent)
-        })
-        val searchAdapter = MoviesAdapter(MovieClickListener { movie ->
-            val intent = Intent(this, DetailsActivity::class.java)
-            intent.putExtra("Extra_Movie", movie)
-            startActivity(intent)
-        })
+        adapter = MoviesAdapter(movieClickListener)
+        searchAdapter = MoviesAdapter(movieClickListener)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
 
 
 
-        if (SharedPreference(this).getValueBoolien(getString(R.string.isFirstTime), true)) {
+        if (SharedPreference(this).getValueBoolean(FIRST_TIME, true)) { //check if it isFirstTime or not to parse just one time
             movieViewModel.insertJsonToRoomDB()
-            SharedPreference(this).save(getString(R.string.isFirstTime), false)
+            SharedPreference(this).save(FIRST_TIME, false)
         }
 
         movieViewModel.searchResults.observe(this, Observer { movies ->
@@ -103,5 +97,11 @@ class MainActivity : AppCompatActivity() {
                 return true
             }
         })
+    }
+
+    private fun startDetailsActivity(movie: Movie){
+        val intent = Intent(this, DetailsActivity::class.java)
+        intent.putExtra(MOVIE_DETAIL_Extra, movie)
+        startActivity(intent)
     }
 }

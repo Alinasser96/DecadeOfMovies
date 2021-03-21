@@ -5,7 +5,6 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
@@ -14,6 +13,7 @@ import com.alyndroid.decadeofmovies.domain.model.Movie
 import com.alyndroid.decadeofmovies.presentation.adapters.ImagesAdapter
 import com.alyndroid.decadeofmovies.presentation.states.DetailsUiState
 import com.alyndroid.decadeofmovies.presentation.viewModels.DetailsViewModel
+import com.alyndroid.decadeofmovies.util.MOVIE_DETAIL_Extra
 import com.alyndroid.decadeofmovies.util.hide
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_details.*
@@ -30,23 +30,27 @@ class DetailsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details)
-        movie = intent.getParcelableExtra("Extra_Movie")!!
+        movie = intent.getParcelableExtra(MOVIE_DETAIL_Extra)!!
         initImagesRecycler()
         bindViews(movie)
 
         viewModel.search(movie.title)
         lifecycleScope.launchWhenStarted {
             viewModel.detailsUiState.collect { detailsUiState ->
-                when (detailsUiState){
+                when (detailsUiState) {
                     is DetailsUiState.Success -> {
                         galleryAdapter.submitData(detailsUiState.imageWrapperResponse.photos.photo.map { p -> p.toUrl() })
                         animation_view?.isVisible = false
                     }
-                    is DetailsUiState.Error->{
-                        Toast.makeText(this@DetailsActivity, detailsUiState.errorMessage, Toast.LENGTH_LONG).show()
+                    is DetailsUiState.Error -> {
+                        Toast.makeText(
+                            this@DetailsActivity,
+                            detailsUiState.errorMessage,
+                            Toast.LENGTH_LONG
+                        ).show()
                         animation_view?.isVisible = false
                     }
-                    is DetailsUiState.Loading->{
+                    is DetailsUiState.Loading -> {
                         animation_view?.isVisible = true
                     }
                     else -> Unit

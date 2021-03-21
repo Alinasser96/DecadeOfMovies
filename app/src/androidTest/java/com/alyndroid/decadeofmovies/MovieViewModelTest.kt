@@ -20,7 +20,7 @@ import org.mockito.Mockito.mock
 import javax.inject.Inject
 
 @HiltAndroidTest
-class MovieViewMoedlTest {
+class MovieViewModelTest {
     @get:Rule
     var hiltAndroidRule = HiltAndroidRule(this)
 

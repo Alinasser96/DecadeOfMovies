@@ -29,7 +29,6 @@ class MovieViewModel @Inject constructor(
 
 
     fun insertJsonToRoomDB() {
-
         val movies = jsonToPojo("movies.json", context!!)
         viewModelScope.launch {
             insertMoviesUseCase.invoke(movies)
@@ -39,13 +38,12 @@ class MovieViewModel @Inject constructor(
     fun search(query: String) = viewModelScope.launch {
         searchMovieUseCase.invoke(query).let { movies ->
             _searchResults.postValue(movies.asReversed()
-                .groupBy { it.year }
+                .groupBy { it.year } //group the result by year
                 .flatMap {
-                    var list = it.value.sortedByDescending { movie ->
-                        movie.rating
-                    }.toMutableList<Any>()
-                    if (list.size > 5)
-                        list = list.subList(0, 5)
+                    val list = it.value.sortedByDescending { movie ->
+                        movie.rating // order the result by rating **using quick sort algorithm**
+                    }.take(5) //just take the first 5 items
+                        .toMutableList<Any>()
                     list.add(0, it.key)
                     list
                 })

@@ -19,6 +19,7 @@ data class Movie(
     val year: Int
 ): Parcelable
 
+//make new Entity for virtual full text search table
 @Entity(tableName = "movies_fts")
 @Fts4(contentEntity = Movie::class)
 data class MovieFTS(

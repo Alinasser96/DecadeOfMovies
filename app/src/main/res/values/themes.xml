@@ -14,19 +14,9 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="movie_title">
-        <item name="android:layout_marginBottom">8dp</item>
-        <item name="android:paddingLeft">8dp</item>
-        <item name="android:background">@android:color/holo_orange_light</item>
-        <item name="android:textAppearance">@android:style/TextAppearance.Large</item>
-    </style>
-
     <style name="RatingBar" parent="Theme.AppCompat">
         <item name="colorControlNormal">@color/gray_light</item>
         <item name="colorControlActivated">@color/dark_second</item>
     </style>
 
-    <style name="dialogStyle" parent="Theme.Design.BottomSheetDialog">
-        <item name="colorAccent">@color/dark_background</item>
-    </style>
 </resources>
