@@ -1,10 +1,12 @@
 package com.alyndroid.decadeofmovies.util
 
 import android.content.Context
+import android.view.View
 import com.alyndroid.decadeofmovies.domain.model.Movie
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.IOException
+import java.util.regex.Matcher
 
 fun getJsonDataFromAsset(context: Context, fileName: String): String? {
     val jsonString: String
@@ -23,3 +25,4 @@ fun jsonToPojo(jsonFileName: String, context: Context): List<Movie> {
     val listPersonType = object : TypeToken<List<Movie>>() {}.type
     return gson.fromJson(jsonFileString, listPersonType)
 }
+

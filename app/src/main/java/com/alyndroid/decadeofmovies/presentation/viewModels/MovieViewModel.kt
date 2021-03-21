@@ -17,7 +17,7 @@ class MovieViewModel @Inject constructor(
     private val searchMovieUseCase: SearchMovieUseCase,
     private val insertMoviesUseCase: InsertMoviesUseCase,
     getMovieUseCase: GetMovieUseCase,
-    @ApplicationContext private val context: Context
+    @ApplicationContext private val context: Context?
 ) :
     ViewModel() {
 
@@ -30,7 +30,7 @@ class MovieViewModel @Inject constructor(
 
     fun insertJsonToRoomDB() {
 
-        val movies = jsonToPojo("movies.json", context)
+        val movies = jsonToPojo("movies.json", context!!)
         viewModelScope.launch {
             insertMoviesUseCase.invoke(movies)
         }

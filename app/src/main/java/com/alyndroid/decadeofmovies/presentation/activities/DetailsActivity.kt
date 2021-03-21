@@ -53,13 +53,6 @@ class DetailsActivity : AppCompatActivity() {
                 }
             }
         }
-//        viewModel.searchResults.observe(this, Observer {
-//            galleryAdapter.submitData(it.photos.photo.map { p -> p.toUrl() })
-//        })
-//
-//        viewModel.loading.observe(this, Observer {
-//            animation_view?.isVisible = it
-//        })
     }
 
     private fun bindViews(movie: Movie) {

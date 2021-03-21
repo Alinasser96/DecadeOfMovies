@@ -10,7 +10,9 @@ data class ImageResponse(
 
 data class ImageWrapperResponse(
     @SerializedName("photos")
-    val photos: ImageResponse
+    val photos: ImageResponse,
+    @SerializedName("stat")
+val stat: String
 )
 
 data class Image(

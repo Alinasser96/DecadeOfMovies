@@ -15,6 +15,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.IOException
+import kotlin.jvm.Throws
 
 @RunWith(AndroidJUnit4::class)
 class MovieDaoTest {
