@@ -64,7 +64,7 @@ The past decade held a lot of movies, some left a mark and some were just a set 
 * In this project I'm using [clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
 and also ``MVVM`` as an application architecture adopted from the architecture blueprints sample.
 
-<img src="https://res.cloudinary.com/practicaldev/image/fetch/s--c0f9PFvt--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/http://wahibhaq.github.io/img/blog/posts/summary-thoughts-clean-architecture-mvp/clean-architecture-ring-diagram.png"></a>
+<img src="https://mdimg.wxwenku.com/getimg/6b990ce30fa9193e296dd37902816f4bf56a9a48e30b57ec3b411efdf046d5f69bbfd823a375048bac2104ec78095344.jpg"></a>
 
 ## searching
 * i'm using Full Text Search (FTS) algorithm in this project, also i have migrated it to Room DataBase to use it instead of regular SQL search
