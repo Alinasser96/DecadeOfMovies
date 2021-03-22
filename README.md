@@ -16,7 +16,8 @@ The past decade held a lot of movies, some left a mark and some were just a set 
 - Using Flicker api to retrieve photos that matches the movie title in a 2 column grid 
 
 ## Screenshot
-<img src="https://github.com/Alinasser96/DecadeOfMovies/blob/master/screenshots/1.png"></a><img src="https://github.com/Alinasser96/DecadeOfMovies/blob/master/screenshots/2.png"></a>
+<img src="https://github.com/Alinasser96/DecadeOfMovies/blob/master/screenshots/1.png" width="100" height="100"></a>
+<img src="https://github.com/Alinasser96/DecadeOfMovies/blob/master/screenshots/2.png"></a>
 <img src="https://github.com/Alinasser96/DecadeOfMovies/blob/master/screenshots/3.png"></a>
 <img src="https://github.com/Alinasser96/DecadeOfMovies/blob/master/screenshots/4.png"></a>
 <img src="https://github.com/Alinasser96/DecadeOfMovies/blob/master/screenshots/5.png"></a>
