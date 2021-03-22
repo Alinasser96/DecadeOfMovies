@@ -16,6 +16,8 @@ import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import com.alyndroid.decadeofmovies.R
 import com.alyndroid.decadeofmovies.domain.model.Movie
 import com.alyndroid.decadeofmovies.presentation.adapters.MoviesAdapter
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
 import org.junit.Rule
@@ -23,10 +25,13 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 
-@RunWith(AndroidJUnit4ClassRunner::class)
+@HiltAndroidTest
 class MainActivityTest{
 
-    @get: Rule
+    @get:Rule(order = 0)
+    var hiltRule = HiltAndroidRule(this)
+
+    @get:Rule(order = 1)
     val activityRule = ActivityScenarioRule(MainActivity::class.java)
     val testMovie = Movie(listOf("Zac Efron",
         "Leslie Mann",
@@ -67,9 +72,9 @@ class MainActivityTest{
 
     @Test
     fun whenClickSearchResult_mustOpenDetailsActivity() {
+        Thread.sleep(1500)
         onView(withId(R.id.svMovies)).perform(click())
         onView(withId(R.id.svMovies)).perform(typeSearchViewText(testMovie.title))
-        onView(withId(R.id.recyclerview)).check(matches(isDisplayed()))
         onView(withId(R.id.recyclerview)).perform(actionOnItemAtPosition<MoviesAdapter.MovieViewHolder>(1, click()))
         onView(withId(R.id.name_details_tv)).check(matches(withText(testMovie.title)))
     }
